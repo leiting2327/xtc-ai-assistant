@@ -18,8 +18,8 @@ public class PreferenceManager {
 
     public String getSettingsJson() {
         String defaultSettings = "{" +
-                "\"primaryApi\":{\"name\":\"OC Studio\",\"baseUrl\":\"https:\/\/guozi-ai.com\/api\/v1\",\"apiKey\":\"gz-ai-30205737-6a714294\",\"model\":\"ModelScope\/Qwen\/Qwen2.5-32B-Instruct\"}," +
-                "\"backupApi\":{\"name\":\"本地 Ollama\",\"baseUrl\":\"http:\/\/127.0.0.1:11434\/v1\",\"apiKey\":\"543618\",\"model\":\"qwen2.5:32b\"}," +
+                "\"primaryApi\":{\"name\":\"OC Studio\",\"baseUrl\":\"https://guozi-ai.com/api/v1\",\"apiKey\":\"gz-ai-30205737-6a714294\",\"model\":\"ModelScope/Qwen/Qwen2.5-32B-Instruct\"}," +
+                "\"backupApi\":{\"name\":\"本地 Ollama\",\"baseUrl\":\"http://127.0.0.1:11434/v1\",\"apiKey\":\"543618\",\"model\":\"qwen2.5:32b\"}," +
                 "\"contactName\":\"宝贝\"," +
                 "\"autoReply\":true," +
                 "\"systemPrompt\":\"你是一个友好的AI助手，帮助回答手表佩戴者的问题。回答要简洁、适合儿童理解。\"" +

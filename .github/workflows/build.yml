@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  actions: write
 
 jobs:
   build:
@@ -28,34 +27,13 @@ jobs:
           mkdir -p android/app/src/main/assets/web
           cp web/index.html android/app/src/main/assets/web/index.html
 
-      # Print environment for debugging
-      - name: Show environment
-        run: |
-          java -version
-          echo "ANDROID_HOME=$ANDROID_HOME"
-          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
-          ls -la /usr/local/lib/android/sdk 2>/dev/null | head || echo "no bundled sdk"
-          cat android/app/build.gradle
-
       - name: Make gradlew executable
         run: chmod +x android/gradlew
 
-      - name: Build debug APK (full log to file)
+      - name: Build debug APK
         shell: bash
         working-directory: android
-        continue-on-error: true
-        run: |
-          ./gradlew assembleDebug --no-daemon --console=plain > /tmp/gradle_build.log 2>&1
-          echo "=== gradlew exit code: $? ==="
-          echo "GRADLE_EXIT=done"
-
-      - name: Upload build logs on failure
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: gradle-build-log
-          path: /tmp/gradle_build.log
-          if-no-files-found: ignore
+        run: ./gradlew assembleDebug --no-daemon --console=plain
 
       - name: Upload APK
         if: success()
@@ -63,4 +41,4 @@ jobs:
         with:
           name: XTC-AI-Assistant
           path: android/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: ignore
+          if-no-files-found: error
