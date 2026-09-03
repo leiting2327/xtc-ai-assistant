@@ -91,7 +91,7 @@ public class XtcAccessibilityService extends AccessibilityService {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         if (instance == this) instance = null;
         super.onDestroy();
     }
