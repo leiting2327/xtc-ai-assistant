@@ -18,7 +18,7 @@ public class PreferenceManager {
 
     public String getSettingsJson() {
         String defaultSettings = "{" +
-                "\"primaryApi\":{\"name\":\"OpenAI\",\"baseUrl\":\"https://api.openai.com/v1\",\"apiKey\":\"sk-or-v1-PLACEHOLDER-KEY\",\"model\":\"gpt-4o-mini\"}," +
+                "\"primaryApi\":{\"name\":\"OpenAI\",\"baseUrl\":\"https://api.openai.com/v1\",\"apiKey\":\"\",\"model\":\"gpt-4o-mini\"}," +
                 "\"backupApi\":{\"name\":\"本地 Ollama\",\"baseUrl\":\"http://127.0.0.1:11434/v1\",\"apiKey\":\"543618\",\"model\":\"qwen2.5:32b\"}," +
                 "\"contactName\":\"宝贝\"," +
                 "\"autoReply\":true," +
