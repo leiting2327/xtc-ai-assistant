@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">小天才AI助手</string>
+    <string name="accessibility_service_description">用于自动操作小天才App发送微聊消息给手表。我们不会收集任何个人信息。</string>
+</resources>
