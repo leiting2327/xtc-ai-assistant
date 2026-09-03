@@ -18,7 +18,7 @@ public class PreferenceManager {
 
     public String getSettingsJson() {
         String defaultSettings = "{" +
-                "\"primaryApi\":{\"name\":\"OpenAI\",\"baseUrl\":\"https://api.openai.com/v1\",\"apiKey\":\"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\",\"model\":\"nvidia/nemotron-3.5-lightning:free\"}," +
+                "\"primaryApi\":{\"name\":\"OpenAI\",\"baseUrl\":\"https://api.openai.com/v1\",\"apiKey\":\"sk-or-v1-PLACEHOLDER-KEY\",\"model\":\"gpt-4o-mini\"}," +
                 "\"backupApi\":{\"name\":\"本地 Ollama\",\"baseUrl\":\"http://127.0.0.1:11434/v1\",\"apiKey\":\"543618\",\"model\":\"qwen2.5:32b\"}," +
                 "\"contactName\":\"宝贝\"," +
                 "\"autoReply\":true," +
