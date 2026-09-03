@@ -28,11 +28,8 @@ jobs:
           mkdir -p android/app/src/main/assets/web
           cp web/index.html android/app/src/main/assets/web/index.html
 
-      - name: Generate Gradle Wrapper
-        working-directory: android
-        run: |
-          gradle wrapper --gradle-version 8.4
-          chmod +x gradlew
+      - name: Grant execute permission for gradlew
+        run: chmod +x android/gradlew
 
       - name: Build Debug APK
         working-directory: android
@@ -40,6 +37,7 @@ jobs:
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
+        if: success()
         with:
           name: XTC-AI-Assistant-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
