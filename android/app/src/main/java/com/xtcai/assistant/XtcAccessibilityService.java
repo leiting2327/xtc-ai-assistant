@@ -26,8 +26,33 @@ public class XtcAccessibilityService extends AccessibilityService {
     private static volatile boolean messageSendInProgress = false;
     private static volatile Runnable onMessageSentCallback = null;
 
+    private static volatile XtcAccessibilityService instance = null;
+
+    public static XtcAccessibilityService getInstance() {
+        return instance;
+    }
+
     public static void setLastWatchReply(String reply) {
         lastWatchReply = reply;
+    }
+
+    /** Broadcast from JS/WebView to send an AI text into the current XTC chat view. */
+    public static String sendToForeground(String message) {
+        XtcAccessibilityService svc = instance;
+        if (svc == null) {
+            return "error: 无障碍服务未运行，请先开启小天才AI助手的无障碍权限";
+        }
+        try {
+            AccessibilityNodeInfo root = svc.getRootInActiveWindow();
+            if (root == null) {
+                return "error: 无法获取窗口内容。请先把小天才App放到前台并停留在聊天页";
+            }
+            EmojiMessageSender sender = new EmojiMessageSender();
+            return sender.performEmojiSend(svc, root, message);
+        } catch (Exception e) {
+            Log.e(TAG, "sendToForeground error", e);
+            return "error: " + e.getMessage();
+        }
     }
 
     public static String getLastWatchReply() {
@@ -59,6 +84,18 @@ public class XtcAccessibilityService extends AccessibilityService {
         }
     }
 
+    @Override
+    public boolean onUnbind(Intent intent) {
+        if (instance == this) instance = null;
+        return super.onUnbind(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (instance == this) instance = null;
+        super.onDestroy();
+    }
+
     private void handleWindowChanged(AccessibilityEvent event) {
         if (!messageSendInProgress) return;
         logNodeInfo("WindowChanged", getRootInActiveWindow());
@@ -83,6 +120,7 @@ public class XtcAccessibilityService extends AccessibilityService {
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
+        instance = this;
         Log.i(TAG, "XtcAccessibilityService connected");
 
         AccessibilityServiceInfo info = getServiceInfo();
@@ -93,7 +131,7 @@ public class XtcAccessibilityService extends AccessibilityService {
         }
     }
 
-    private void logNodeInfo(String tag, AccessibilityNodeInfo root) {
+    private static void logNodeInfo(String tag, AccessibilityNodeInfo root) {
         if (root == null) return;
         try {
             StringBuilder sb = new StringBuilder();
@@ -104,7 +142,7 @@ public class XtcAccessibilityService extends AccessibilityService {
         }
     }
 
-    private void appendNodeTree(StringBuilder sb, AccessibilityNodeInfo node, int depth) {
+    private static void appendNodeTree(StringBuilder sb, AccessibilityNodeInfo node, int depth) {
         if (node == null) return;
         for (int i = 0; i < depth; i++) sb.append("  ");
         sb.append("<")

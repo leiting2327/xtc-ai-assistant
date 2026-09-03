@@ -34,8 +34,6 @@ public class JsBridge {
     private final WebView webView;
     private final PreferenceManager prefManager;
     private final ExecutorService executor = Executors.newFixedThreadPool(3);
-    private final XtcAccessibilityService.EmojiMessageSender messageSender =
-            new XtcAccessibilityService.EmojiMessageSender();
 
     public JsBridge(Activity activity, WebView webView) {
         this.activity = activity;
@@ -77,9 +75,9 @@ public class JsBridge {
     @JavascriptInterface
     public String sendMessageToXtc(String message) {
         try {
-            return messageSender.sendEmojiMessage(activity, message);
+            return XtcAccessibilityService.sendToForeground(message);
         } catch (Exception e) {
-            Log.e(TAG, "sendEmojiMessage error", e);
+            Log.e(TAG, "sendMessageToXtc error", e);
             return "error: " + e.getMessage();
         }
     }
