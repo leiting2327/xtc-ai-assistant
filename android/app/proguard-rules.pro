@@ -1,13 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<proguard-rules>
-    -keepattributes Signature
-    -keepattributes *Annotation*
-    -keep class com.xtcai.assistant.** { *; }
-    -keep class android.webkit.JavascriptInterface { *; }
-    -keepclassmembers class * {
-        @android.webkit.JavascriptInterface <methods>;
-    }
-    -keep class com.squareup.okhttp3.** { *; }
-    -keep class okhttp3.** { *; }
-    -keep class okio.** { *; }
-</proguard-rules>
+# XTC AI Assistant proguard rules
+-keepattributes Signature
+-keepattributes *Annotation*
+
+# Keep the app's own classes (bridge + services)
+-keep class com.xtcai.assistant.** { *; }
+
+# Keep WebView JS interface annotation
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
+
+# OkHttp
+-keep class okhttp3.** { *; }
+-dontwarn okhttp3.**
+-keep class okio.** { *; }
+-dontwarn okio.**
