@@ -112,17 +112,25 @@ public class JsBridge {
     public void openXtcApp() {
         runOnUiThread(() -> {
             try {
+                // Primary check: launcher intent
                 Intent launchIntent = activity.getPackageManager()
                         .getLaunchIntentForPackage("com.xtc.watch");
                 if (launchIntent != null) {
                     activity.startActivity(launchIntent);
-                } else {
-                    Toast.makeText(activity,
-                            "未安装小天才家长端App", Toast.LENGTH_LONG).show();
+                    return;
                 }
+                
+                // Fallback check: installed check using improved method
+                if (isAppInstalled("com.xtc.watch")) {
+                    activity.startActivity(new Intent(activity, com.xtcai.assistant.MainActivity.class));
+                    return;
+                }
+                
+                Toast.makeText(activity,
+                        "未安装小天利用家长端App", Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 Toast.makeText(activity,
-                        "打开小天才App失败: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        "打开小天利用App失败: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -161,11 +169,32 @@ public class JsBridge {
 
     private boolean isAppInstalled(String packageName) {
         try {
+            // Primary check: package exists
             activity.getPackageManager().getPackageInfo(packageName, 0);
             return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
+        } catch (PackageManager.NameNotFoundException e1) {
+            // Fallback check: check if launcher intent exists
+            try {
+                Intent intent = activity.getPackageManager().getLaunchIntentForPackage(packageName);
+                return intent != null;
+            } catch (Exception e2) {
+                // Last fallback: check running services
+                try {
+                    android.app.ActivityManager activityManager = (android.app.ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
+                    List<android.app.RunningAppProcessInfo> running Processes = activityManager.getRunningAppProcesses();
+                    if (running Processes != null) {
+                        for (android.app.RunningAppProcessInfo process : running Processes) {
+                            if (process.processName.equals(packageName)) {
+                                return true;
+                            }
+                        }
+                    }
+                } catch (Exception e3) {
+                    // Ignore
+                }
+            }
         }
+        return false;
     }
 
     private String getAppVersionName() {

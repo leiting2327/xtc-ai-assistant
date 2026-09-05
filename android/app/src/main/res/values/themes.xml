@@ -1,6 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.XTCAIAssistant" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <!-- 主要颜色 -->
+        <item name="colorPrimary">#0078d7</item>
+        <item name="colorPrimaryContainer">#8fb9ff</item>
+        <item name="colorOnPrimary">#ffffff</item>
+        <item name="colorSecondary">#10a37f</item>
+        <item name="colorOnSecondary">#ffffff</item>
+        <item name="colorError">#b00020</item>
+        <item name="colorOnError">#ffffff</item>
+
+        <!-- 圆角和阴影 -->
+        <item name="cornerSize">4dp</item>
+        <item name="windowElevation">2dp</item>
+
+        <!-- 自定义属性 -->
+        <item name="windowBackgroundStyle">@style/WindowBackground</item>
     </style>
-</resources>
+
+    <style name="WindowBackground">
+        <item name="android:windowBackground">@drawable/bg_window</item>
+    </style>
+</style>

@@ -30,6 +30,21 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x android/gradlew
 
+      - name: Inject API keys from secrets
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        run: |
+          set -e
+          FILE="android/app/src/main/java/com/xtcai/assistant/PreferenceManager.java"
+          if [ -z "$DEEPSEEK_API_KEY" ]; then
+            echo "::warning::DEEPSEEK_API_KEY secret is empty; using placeholder"
+            sed -i 's|__DEEPSEEK_API_KEY__|PLACEHOLDER_SET_SECRET_AT_GITHUB_SETTINGS|g' "$FILE"
+          else
+            sed -i "s|__DEEPSEEK_API_KEY__|$DEEPSEEK_API_KEY|g" "$FILE"
+          fi
+          echo "Injected. Result:"
+          grep "backupApi" "$FILE" | head -2
+
       - name: Build debug APK (store log)
         id: build
         shell: bash

@@ -18,8 +18,8 @@ public class PreferenceManager {
 
     public String getSettingsJson() {
         String defaultSettings = "{" +
-                "\"primaryApi\":{\"name\":\"AI Service\",\"baseUrl\":\"\",\"apiKey\":\"\",\"model\":\"\"}," +
-                "\"backupApi\":{\"name\":\"Ollama\",\"baseUrl\":\"http://127.0.0.1:11434/v1\",\"apiKey\":\"\",\"model\":\"qwen2.5:32b\"}," +
+                "\"primaryApi\":{\"name\":\"MNN\",\"baseUrl\":\"http://127.0.0.1:8080/v1\",\"apiKey\":\"\",\"model\":\"qwen3.5-2b-mnn\"}," +
+                "\"backupApi\":{\"name\":\"DeepSeek\",\"baseUrl\":\"https://api.openai.com/v1\",\"apiKey\":\"__DEEPSEEK_API_KEY__\",\"model\":\"nvidia/nemotron-3.5-lightning:free\"}," +
                 "\"contactName\":\"宝贝\"," +
                 "\"autoReply\":true," +
                 "\"systemPrompt\":\"你是一个友好的AI助手，帮助回答手表佩戴者的问题。回答要简洁、适合儿童理解。\"" +
